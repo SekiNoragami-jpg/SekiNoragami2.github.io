@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนวข้อสอบวิทยาการคำนวณ ม.5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Kanit', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .question-card { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); }
+        .answer-btn { transition: all 0.2s ease; }
+        .answer-btn:hover { transform: scale(1.02); }
+        .correct { background: linear-gradient(135deg, #10b981, #059669); }
+        .incorrect { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .tech-pattern { background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 20px 20px; }
+        .neon-glow { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(139, 92, 246, 0.3); }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .holographic { background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd); background-size: 400% 400%; animation: holographic 4s ease infinite; }
+        @keyframes holographic { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .cyber-border { border: 2px solid transparent; background: linear-gradient(white, white) padding-box, linear-gradient(45deg, #667eea, #764ba2) border-box; }
+        .matrix-bg { background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); }
+        .glass-effect { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .score-circle { stroke-dasharray: 251.2; stroke-dashoffset: 251.2; animation: fillCircle 2s ease-out forwards; }
+        @keyframes fillCircle { to { stroke-dashoffset: 0; } }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg tech-pattern text-white py-6 px-4 shadow-lg relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white bg-opacity-20 p-3 rounded-xl neon-glow floating">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold gradient-text">วิทยาการคำนวณ</h1>
+                        <p class="text-blue-100 text-sm md:text-base pulse-animation">แนวข้อสอบ ม.5 | ระบบข้อมูลและการวิเคราะห์</p>
+                    </div>
+                </div>
+                <div class="glass-effect px-4 py-2 rounded-full">
+                    <span class="text-sm font-medium">🚀 เทคโนโลยีล้ำสมัย</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Navigation Tabs -->
+        <div class="mb-8">
+            <div class="flex flex-wrap gap-2 bg-white p-2 rounded-xl shadow-md cyber-border">
+                <button onclick="showSection('multiple-choice')" id="tab-mc" class="tab-btn flex-1 min-w-fit px-4 py-3 rounded-lg font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-600 text-white neon-glow">
+                    🎯 ข้อสอบปรนัย (20 ข้อ)
+                </button>
+                <button onclick="showSection('essay')" id="tab-essay" class="tab-btn flex-1 min-w-fit px-4 py-3 rounded-lg font-medium transition-all text-gray-600 hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100">
+                    ✨ ข้อสอบอัตนัย (2 ข้อ)
+                </button>
+                <button onclick="showSection('answers')" id="tab-answers" class="tab-btn flex-1 min-w-fit px-4 py-3 rounded-lg font-medium transition-all text-gray-600 hover:bg-gradient-to-r hover:from-green-100 hover:to-blue-100">
+                    🔮 เฉลย
+                </button>
+            </div>
+        </div>
+
+        <!-- Multiple Choice Section -->
+        <div id="multiple-choice" class="section">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6 cyber-border">
+                <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+                    <h2 class="text-2xl font-bold gradient-text flex items-center">
+                        <span class="holographic p-2 rounded-lg mr-3 text-white">🎮</span>
+                        ข้อสอบปรนัย
+                    </h2>
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-gradient-to-r from-green-400 to-blue-500 px-4 py-2 rounded-lg glass-effect">
+                            <span class="text-white font-medium">⚡ คะแนน: <span id="score">0</span>/20</span>
+                        </div>
+                        <button onclick="resetQuiz()" class="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-4 py-2 rounded-lg transition-all neon-glow">
+                            🔄 เริ่มใหม่
+                        </button>
+                        <button onclick="shuffleQuestions()" class="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-2 rounded-lg transition-all neon-glow">
+                            🎲 สุ่มข้อสอบ
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="questions-container" class="space-y-6">
+                    <!-- Questions will be generated here -->
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <button onclick="checkAnswers()" class="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 hover:from-blue-600 hover:via-purple-700 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-medium text-lg shadow-lg transition-all transform hover:scale-105 neon-glow pulse-animation">
+                        🚀 ตรวจคำตอบ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Essay Section -->
+        <div id="essay" class="section hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 cyber-border">
+                <h2 class="text-2xl font-bold gradient-text flex items-center mb-6">
+                    <span class="holographic p-2 rounded-lg mr-3 text-white">💎</span>
+                    ข้อสอบอัตนัย
+                </h2>
+                
+                <div class="space-y-8">
+                    <div class="question-card p-6 rounded-xl border border-gray-200 card-hover cyber-border">
+                        <h3 class="text-lg font-semibold gradient-text mb-4">🔹 ข้อ 1</h3>
+                        <p class="text-gray-700 mb-4">การเก็บรวบรวมข้อมูลแบ่งออกเป็นกี่ประเภทอะไรบ้าง พร้อมยกตัวอย่าง</p>
+                        <textarea class="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none glass-effect" placeholder="💭 เขียนคำตอบของคุณที่นี่..."></textarea>
+                    </div>
+                    
+                    <div class="question-card p-6 rounded-xl border border-gray-200 card-hover cyber-border">
+                        <h3 class="text-lg font-semibold gradient-text mb-4">🔹 ข้อ 2</h3>
+                        <p class="text-gray-700 mb-4">การเก็บรวบรวมข้อมูลมีกี่ขั้นตอน ขั้นตอนอะไรบ้าง พร้อมอธิบาย</p>
+                        <textarea class="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none glass-effect" placeholder="💭 เขียนคำตอบของคุณที่นี่..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Answers Section -->
+        <div id="answers" class="section hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 cyber-border">
+                <h2 class="text-2xl font-bold gradient-text flex items-center mb-6">
+                    <span class="holographic p-2 rounded-lg mr-3 text-white">🌟</span>
+                    เฉลยข้อสอบ
+                </h2>
+                
+                <!-- Essay Answers Only -->
+                <div>
+                    <h3 class="text-xl font-semibold gradient-text mb-4">🎯 เฉลยข้อสอบอัตนัย</h3>
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 p-6 rounded-xl cyber-border">
+                            <h4 class="font-semibold text-blue-800 mb-3">🔹 ข้อ 1: การเก็บรวบรวมข้อมูลแบ่งออกเป็นกี่ประเภทอะไรบ้าง พร้อมยกตัวอย่าง</h4>
+                            <div class="text-gray-700 space-y-2">
+                                <p><strong>💡 คำตอบ:</strong> การเก็บรวบรวมข้อมูลแบ่งออกเป็น 2 ประเภท คือ</p>
+                                <p><strong>🔸 1. ข้อมูลปฐมภูมิ (Primary Data)</strong> - ข้อมูลที่เก็บรวบรวมขึ้นใหม่โดยตรง</p>
+                                <p class="ml-4">📋 ตัวอย่าง: การสัมภาษณ์, การสำรวจ, การทดลอง, การสังเกต</p>
+                                <p><strong>🔸 2. ข้อมูลทุติยภูมิ (Secondary Data)</strong> - ข้อมูลที่มีอยู่แล้ว ถูกจัดเก็บมาก่อนแล้ว</p>
+                                <p class="ml-4">📚 ตัวอย่าง: รายงานวิจัย, หนังสือ, สถิติที่ตีพิมพ์, เว็บไซต์หน่วยงานรัฐ</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 p-6 rounded-xl cyber-border">
+                            <h4 class="font-semibold text-purple-800 mb-3">🔹 ข้อ 2: การเก็บรวบรวมข้อมูลมีกี่ขั้นตอน ขั้นตอนอะไรบ้าง พร้อมอธิบาย</h4>
+                            <div class="text-gray-700 space-y-2">
+                                <p><strong>💡 คำตอบ:</strong> การเก็บรวบรวมข้อมูลมี 5 ขั้นตอน คือ</p>
+                                <p><strong>🎯 1. กำหนดวัตถุประสงค์</strong> - กำหนดเป้าหมายและจุดประสงค์ในการเก็บข้อมูล</p>
+                                <p><strong>📋 2. กำหนดประเภทและแหล่งข้อมูล</strong> - เลือกประเภทข้อมูลและแหล่งที่มาของข้อมูล</p>
+                                <p><strong>📝 3. ออกแบบแบบสอบถาม</strong> - สร้างเครื่องมือในการเก็บข้อมูลให้เหมาะสม</p>
+                                <p><strong>🚀 4. ดำเนินการเก็บรวบรวมข้อมูล</strong> - ลงมือเก็บข้อมูลตามแผนที่วางไว้</p>
+                                <p><strong>✅ 5. ตรวจสอบข้อมูล</strong> - ตรวจสอบความถูกต้องและความสมบูรณ์ของข้อมูล</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="matrix-bg text-white py-6 px-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-gray-300">🌌 แนวข้อสอบวิทยาการคำนวณ ม.5 | ระบบข้อมูลและการวิเคราะห์</p>
+            <p class="text-gray-400 text-sm mt-2">🔮 เทคโนโลジีล้ำสมัย รองรับทุกอุปกรณ์</p>
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            {
+                question: "ข้อมูลต้องผ่านการกระบวนการใดเพื่อให้เกิดประโยชน์",
+                options: ["วิเคราะห์หรือประมวลผล", "รวบรวมข้อมูล", "ทำความสะอาดข้อมูล", "ตรวจสอบข้อมูล"],
+                correct: 0
+            },
+            {
+                question: "การที่ได้มาซึ่งข้อมูลที่เป็นประโยชน์ต้องผ่านกระบวนการใดที่สำคัญ",
+                options: ["การบวนการสังเคราะห์ข้อมูล", "กระบวนการในการเก็บรวมรวมและจัดการข้อมูล", "กระบวนการเรียงลำดับข้อมูล", "กระบวนการบันทึกข้อมูล"],
+                correct: 1
+            },
+            {
+                question: "ขั้นตอนแรกของขั้นตอนการเก็บรวมรวมข้อมูล ได้แก่ ข้อใด",
+                options: ["ดำเนินการเก็บรวบรวมข้อมูล", "ออกแบบแบบสอบถาม", "กำหนดวัตถุประสงค์", "ตรวจสอบข้อมูล"],
+                correct: 2
+            },
+            {
+                question: "สิ่งที่จะเป็นตัวขับเคลื่อนให้เกิดความท้าทาย อยากที่จะแสวงหาคำตอบ คือข้อใด",
+                options: ["คำสั่ง", "คำตอบ", "เฉลย", "คำถาม"],
+                correct: 3
+            },
+            {
+                question: "เป็นกระบวนการศึกษาข้อมูลอย่างเป็นระบบจากแหล่งต่างๆ เพื่อนำไปวิเคราะห์ คือ ขั้นตอนใด",
+                options: ["การเก็บรวบรวมข้อมูล", "การบันทึกข้อมูล", "การสังเคราะห์ข้อมูล", "การบันทึกข้อมูล"],
+                correct: 0
+            },
+            {
+                question: "การแบ่งข้อมูลตามประเภทของข้อมูลประกอบด้วย",
+                options: ["ข้อมูลเชิงปริมาตรและเชิงปริมาณ", "ข้อมูลเชิงปริมาณและเชิงคุณลักษณะ", "ข้อมูลเชิงคุณภาพและเชิงตัวเลข", "ข้อมูลเชิงคุณภาพและเชิงปริมาณ"],
+                correct: 3
+            },
+            {
+                question: "ข้อใดไม่ใช่ข้อมูลเชิงปริมาณ",
+                options: ["จำนวนนักเรียน", "ส่วนสูง", "เพศ", "จำนวนประชากร"],
+                correct: 2
+            },
+            {
+                question: "ข้อใดไม่ใช่ข้อมูลเชิงคุณภาพ",
+                options: ["สถานภาพ", "น้ำหนัก", "วันเดือนปีเกิด", "ทะเบียนรถ"],
+                correct: 1
+            },
+            {
+                question: "แบ่งข้อมูลตามแหล่งที่มาของข้อมูลมีอะไรบ้าง",
+                options: ["ข้อมูลปฐมภูมิและทุติยภูมิ", "ข้อมูลทุติยภูมิและทฤษฎี", "ข้อมูลทฤษฎีและปฐมภูมิ", "ข้อมูลเบื้องต้นและเชิงลึก"],
+                correct: 0
+            },
+            {
+                question: "ข้อมูลที่ได้มาการเก็บรวบรวมขึ้นใหม่โดยตรง คือข้อใด",
+                options: ["ข้อมูลทฤษฎี", "ข้อมูลปฐมภูมิ", "ข้อมูลเบื้องต้น", "ข้อมูลทุติยภูมิ"],
+                correct: 1
+            },
+            {
+                question: "ข้อมูลที่มีอยู่แล้ว ถูกจัดเก็บมาก่อนแล้ว คือข้อใด",
+                options: ["ข้อมูลทฤษฎี", "ข้อมูลปฐมภูมิ", "ข้อมูลเบื้องต้น", "ข้อมูลทุติยภูมิ"],
+                correct: 3
+            },
+            {
+                question: "การเก็บรวบรวมข้อมูลซึ่งเป็นไฟล์ที่ได้มาจากโปรแกรมตารางการทำงาน ไฟล์ที่มีนามสกุล .xls คือโปรแกรมใด",
+                options: ["Microsoft Word", "Microsoft Excel", "Microsoft Power Point", "Microsoft Office"],
+                correct: 1
+            },
+            {
+                question: "สิ่งที่ระบุคุณสมบัติของข้อมูลใน excel คือข้อใด",
+                options: ["Attribute (แอตทริบิวต์)", "Infinity (อินฟินีตี้)", "Influencer (อินฟลูเอนเซอร์)", "Activity (แอคทีฟ)"],
+                correct: 0
+            },
+            {
+                question: "ข้อใดเป็น ข้อมูลปฐมภูมิ",
+                options: ["ข้อมูลจากการสัมภาษณ์โดยตรง", "ข้อมูลจากหนังสือเรียน", "ข้อมูลจากรายงานวิจัยเก่า", "ข้อมูลจากเว็บไซต์ของหน่วยงานรัฐ"],
+                correct: 0
+            },
+            {
+                question: "ข้อใดเป็นข้อมูลทุติยภูมิ",
+                options: ["ข้อมูลจากการทดลองในห้องปฏิบัติการ", "ข้อมูลจากสถิติที่ตีพิมพ์แล้ว", "ข้อมูลจากการสังเกตพฤติกรรม", "ข้อมูลจากการทำแบบสอบถามด้วยตนเอง"],
+                correct: 1
+            },
+            {
+                question: "การวิเคราะห์ข้อมูลมีกี่ประเภท",
+                options: ["1 ประเภท", "2 ประเภท", "3 ประเภท", "4 ประเภท"],
+                correct: 2
+            },
+            {
+                question: "การวิเคราะห์ที่นำสูตรคณิตศาสตร์เข้ามาร่วมด้วยคืออะไร",
+                options: ["การวิเคราะห์เชิงพรรณา", "การวิเคราะห์เชิงทำนาย", "การวิเคราะห์เชิงแนะนำ", "การวิเคราะห์เชิงวินิฉัย"],
+                correct: 0
+            },
+            {
+                question: "โปรแกรม Microsoft Excel คือ ข้อใด",
+                options: ["โปรแกรมที่ใช้ในการพิมพ์งาน", "โปรแกรมที่ใช้ในออกแบบรูปภาพ", "เป็นโปรแกรมที่จัดการข้อมูลในตารางและการคำนวณ", "เป็นโปรแกรมที่ช่วยในการตกแต่งภาพ"],
+                correct: 2
+            },
+            {
+                question: "การใช้แผนภูมิแท่ง (Bar Chart) เหมาะสำหรับข้อมูลประเภทใด",
+                options: ["ข้อมูลเชิงเวลา", "การแสดงแนวโน้ม", "การแสดงสัดส่วน", "การเปรียบเทียบปริมาณระหว่างกลุ่ม"],
+                correct: 3
+            },
+            {
+                question: "หากต้องการแสดงสัดส่วนของนักเรียนที่ชอบกิจกรรมต่าง ๆ ควรใช้กราฟแบบใด",
+                options: ["แผนภูมิแท่ง", "แผนภูมิวงกลม", "กราฟเส้น", "แผนภูมิพื้นที่"],
+                correct: 1
+            }
+        ];
+
+        let userAnswers = new Array(questions.length).fill(-1);
+        let isChecked = false;
+        let shuffledQuestions = [];
+
+        // ฟังก์ชันสำหรับสุ่มลำดับอาร์เรย์
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // ฟังก์ชันสำหรับสุ่มข้อสอบและตัวเลือก
+        function initializeQuestions() {
+            // สุ่มลำดับข้อสอบ
+            const questionIndices = Array.from({length: questions.length}, (_, i) => i);
+            const shuffledIndices = shuffleArray(questionIndices);
+            
+            // สร้างข้อสอบใหม่พร้อมสุ่มตัวเลือก
+            shuffledQuestions = shuffledIndices.map(originalIndex => {
+                const originalQuestion = questions[originalIndex];
+                
+                // สร้างอาร์เรย์ของตัวเลือกพร้อมดัชนีเดิม
+                const optionsWithIndex = originalQuestion.options.map((option, index) => ({
+                    text: option,
+                    originalIndex: index
+                }));
+                
+                // สุ่มตัวเลือก
+                const shuffledOptions = shuffleArray(optionsWithIndex);
+                
+                // หาตำแหน่งใหม่ของคำตอบที่ถูกต้อง
+                const newCorrectIndex = shuffledOptions.findIndex(
+                    option => option.originalIndex === originalQuestion.correct
+                );
+                
+                return {
+                    question: originalQuestion.question,
+                    options: shuffledOptions.map(option => option.text),
+                    correct: newCorrectIndex,
+                    originalIndex: originalIndex
+                };
+            });
+            
+            // รีเซ็ตคำตอบของผู้ใช้
+            userAnswers = new Array(shuffledQuestions.length).fill(-1);
+        }
+
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            // Show selected section
+            document.getElementById(section).classList.remove('hidden');
+            
+            // Update tab styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-purple-600', 'text-white', 'neon-glow');
+                btn.classList.add('text-gray-600', 'hover:bg-gradient-to-r', 'hover:from-blue-100', 'hover:to-purple-100');
+            });
+            
+            // Highlight active tab
+            const activeTab = section === 'multiple-choice' ? 'tab-mc' : 
+                             section === 'essay' ? 'tab-essay' : 'tab-answers';
+            const tab = document.getElementById(activeTab);
+            tab.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-purple-600', 'text-white', 'neon-glow');
+            tab.classList.remove('text-gray-600', 'hover:bg-gradient-to-r', 'hover:from-blue-100', 'hover:to-purple-100');
+        }
+
+        function generateQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            
+            shuffledQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-card p-6 rounded-xl border border-gray-200 card-hover cyber-border';
+                
+                questionDiv.innerHTML = `
+                    <div class="flex items-start space-x-4 mb-4">
+                        <div class="holographic text-white font-bold px-3 py-1 rounded-lg min-w-fit">
+                            ข้อ ${index + 1}
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-800 leading-relaxed">${q.question}</h3>
+                    </div>
+                    <div class="grid gap-3 ml-16">
+                        ${q.options.map((option, optIndex) => `
+                            <button onclick="selectAnswer(${index}, ${optIndex})" 
+                                    id="q${index}_opt${optIndex}"
+                                    class="answer-btn text-left p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all glass-effect">
+                                <span class="font-medium text-gray-600">${String.fromCharCode(65 + optIndex)}.</span>
+                                <span class="ml-2 text-gray-800">${option}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+                
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectAnswer(questionIndex, optionIndex) {
+            if (isChecked) return;
+            
+            // Clear previous selection for this question
+            for (let i = 0; i < 4; i++) {
+                const btn = document.getElementById(`q${questionIndex}_opt${i}`);
+                btn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-purple-600', 'text-white', 'border-blue-500', 'neon-glow');
+                btn.classList.add('border-gray-200', 'hover:border-blue-300', 'hover:bg-gradient-to-r', 'hover:from-blue-50', 'hover:to-purple-50');
+            }
+            
+            // Select new option
+            const selectedBtn = document.getElementById(`q${questionIndex}_opt${optionIndex}`);
+            selectedBtn.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-purple-600', 'text-white', 'border-blue-500', 'neon-glow');
+            selectedBtn.classList.remove('border-gray-200', 'hover:border-blue-300', 'hover:bg-gradient-to-r', 'hover:from-blue-50', 'hover:to-purple-50');
+            
+            userAnswers[questionIndex] = optionIndex;
+        }
+
+        function checkAnswers() {
+            if (isChecked) return;
+            
+            isChecked = true;
+            let score = 0;
+            
+            shuffledQuestions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = q.correct;
+                
+                // Style all options - only show correct/incorrect without revealing answers
+                for (let i = 0; i < 4; i++) {
+                    const btn = document.getElementById(`q${index}_opt${i}`);
+                    btn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-purple-600', 'text-white', 'border-blue-500', 'hover:border-blue-300', 'hover:bg-gradient-to-r', 'hover:from-blue-50', 'hover:to-purple-50', 'neon-glow');
+                    
+                    if (i === userAnswer) {
+                        if (userAnswer === correctAnswer) {
+                            btn.classList.add('correct', 'text-white', 'neon-glow');
+                            score++;
+                        } else {
+                            btn.classList.add('incorrect', 'text-white');
+                        }
+                    } else {
+                        btn.classList.add('bg-gray-100', 'text-gray-600');
+                    }
+                }
+            });
+            
+            document.getElementById('score').textContent = score;
+            
+            // Show animated result
+            showScoreAnimation(score);
+        }
+
+        function showScoreAnimation(score) {
+            const percentage = (score / 20) * 100;
+            const resultMessage = score >= 16 ? '🎉 ยอดเยี่ยม!' : 
+                                 score >= 12 ? '👍 ดีมาก!' : 
+                                 score >= 8 ? '😊 พอใช้' : '📚 ควรทบทวนเพิ่มเติม';
+            
+            // Create animated score display
+            const scoreModal = document.createElement('div');
+            scoreModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            scoreModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center transform scale-0 transition-transform duration-500 cyber-border neon-glow">
+                    <div class="mb-6">
+                        <div class="w-32 h-32 mx-auto relative">
+                            <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="#e5e7eb" stroke-width="8" fill="none"/>
+                                <circle cx="50" cy="50" r="40" stroke="url(#gradient)" stroke-width="8" fill="none"
+                                        stroke-dasharray="251.2" stroke-dashoffset="${251.2 - (251.2 * percentage / 100)}"
+                                        class="transition-all duration-2000 ease-out"/>
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#3b82f6"/>
+                                        <stop offset="50%" style="stop-color:#8b5cf6"/>
+                                        <stop offset="100%" style="stop-color:#ec4899"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-3xl font-bold gradient-text">${score}/20</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold gradient-text mb-2">${resultMessage}</h3>
+                    <p class="text-gray-600 mb-6">🎯 คะแนนของคุณ: ${percentage.toFixed(0)}%</p>
+                    <button onclick="closeScoreModal()" class="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 text-white px-6 py-3 rounded-xl font-medium hover:from-blue-600 hover:via-purple-700 hover:to-pink-600 transition-all neon-glow">
+                        ✨ ปิด
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(scoreModal);
+            
+            // Animate modal appearance
+            setTimeout(() => {
+                scoreModal.querySelector('div').classList.remove('scale-0');
+                scoreModal.querySelector('div').classList.add('scale-100');
+            }, 100);
+        }
+
+        function closeScoreModal() {
+            const modal = document.querySelector('.fixed.inset-0');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function resetQuiz() {
+            isChecked = false;
+            initializeQuestions(); // สุ่มข้อสอบใหม่
+            document.getElementById('score').textContent = '0';
+            generateQuestions();
+        }
+
+        function shuffleQuestions() {
+            if (isChecked) {
+                // ถ้าตรวจแล้ว ให้รีเซ็ตทั้งหมด
+                resetQuiz();
+            } else {
+                // ถ้ายังไม่ตรวจ ให้สุ่มใหม่โดยไม่เสียคะแนน
+                initializeQuestions();
+                generateQuestions();
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeQuestions(); // สุ่มข้อสอบเมื่อโหลดหน้าเว็บ
+            generateQuestions();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f216bde2034d99',t:'MTc1Nzg3NjAyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
